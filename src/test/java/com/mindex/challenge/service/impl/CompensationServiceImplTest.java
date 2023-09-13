@@ -80,14 +80,13 @@ public class CompensationServiceImplTest {
 
         assertEquals(createdCompensation.getEmployee().getEmployeeId(), readCompensation.getEmployee().getEmployeeId());
         assertCompensationEquivalence(createdCompensation, readCompensation);
-
     }
 
     private static void assertCompensationEquivalence(Compensation expected, Compensation actual) {
         // For testing equivalence of the employee objects.
-        assertThat(actual)
+        assertThat(actual.getEmployee())
                 .usingRecursiveComparison()
-                .isEqualTo(expected);
+                .isEqualTo(expected.getEmployee());
         assertEquals(expected.getSalary(), actual.getSalary());
         assertEquals(expected.getEffectiveDate(), actual.getEffectiveDate());
     }
