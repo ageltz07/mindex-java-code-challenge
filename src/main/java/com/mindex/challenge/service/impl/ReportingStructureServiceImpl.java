@@ -27,19 +27,25 @@ public class ReportingStructureServiceImpl implements ReportingStructureService 
         Employee employee = employeeService.read(id);
 
         // Basically performing a breadth first search to figure out
-        // the number of direct reports
+        // the number of direct reports by traversing layer by layer from top to bottom
         ArrayList<String> reports = new ArrayList<>();
         ArrayDeque<Employee> queue = new ArrayDeque<>();
 
         queue.add(employee);
 
+        // Continues while there are still employees in the queue
         while(!queue.isEmpty()) {
+            // Storing the queue length of the current level
             int length = queue.size();
             for (int i = 0; i < length; i++) {
 
                 Employee current = employeeService.read(queue.poll().getEmployeeId());
-                reports.add(current.getFirstName() + " " + current.getLastName());
 
+                // Add employee to our list of reports
+                reports.add(current.getEmployeeId());
+
+                // If the current employee has reports, add them all to the end of the queue
+                // this will be the next level of reports to process
                 if (current.getDirectReports() != null) {
                     queue.addAll(current.getDirectReports());
                 }
